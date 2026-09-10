@@ -72,12 +72,8 @@ export default class Onetrust extends AutoConsentCMPBase {
             await this.click('.ot-sdk-show-settings,button.js-cookie-settings');
         }
 
-        await this.waitForElement('#onetrust-consent-sdk', 2000);
-        await this.wait(1000); // ideally we want to wait for popup visivility, but it's tricky on e.g. stackoverflow.com
+        await this.waitForVisible('#onetrust-pc-sdk', 2000);
         await this.click('#onetrust-consent-sdk input.category-switch-handler:checked,.js-editor-toggle-state:checked', true); // optional step
-
-        await this.wait(1000); // ideally we want to wait for popup visivility, but it's tricky on e.g. stackoverflow.com
-        await this.waitForElement('.save-preference-btn-handler,.js-consent-save', 2000);
         await this.click('.save-preference-btn-handler,.js-consent-save');
 
         // popup doesn't disappear immediately
