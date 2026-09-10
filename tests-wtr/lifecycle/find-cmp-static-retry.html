@@ -1,0 +1,12 @@
+<html>
+    <body>
+        <script type="module">
+            import { runTests } from '@web/test-runner-mocha';
+
+            runTests(async () => {
+                await import('./find-cmp-static-retry');
+            });
+        </script>
+        <h1>This is page 1</h1>
+    </body>
+</html>
