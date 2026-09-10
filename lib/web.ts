@@ -327,14 +327,16 @@ export default class AutoConsent {
 
         if (foundCMPs.length === 0 && retries > 0) {
             // if we didn't find a CMP, try again
-            // We wait 500ms, and also for some kind of dom mutation to happen before
-            // rerunning the findCmp check
+            // Wait 500ms; on later attempts also listen for a DOM mutation so a
+            // changing page can wake us early. Use Promise.race so a static page
+            // (no mutation) still advances retries via the timer instead of
+            // hanging on waitForMutation's long timeout (see #1034).
             const waitFor: Promise<boolean>[] = [this.domActions.wait(500)];
             if (this.state.findCmpAttempts > 1) {
                 waitFor.push(mutationObserver);
             }
             try {
-                await Promise.all(waitFor);
+                await Promise.race(waitFor);
             } catch (e) {
                 // timeout waiting for mutation - break out of detection
                 return [];
